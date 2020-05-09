@@ -32,6 +32,7 @@ def create_h5():
     train_h5 = h5py.File(os.path.join(output_path, 'clevr_train.h5'), 'w')
     val_h5 = h5py.File(os.path.join(output_path, 'clevr_val.h5'), 'w')
     test_h5 = h5py.File(os.path.join(output_path, 'clevr_test.h5'), 'w')
+    demo_h5 = h5py.File(os.path.join(output_path, 'clevr_demo.h5'), 'w')
 
     json_path = os.path.join(data_path, 'scenes/')
     images_path = os.path.join(data_path, 'images/')
@@ -42,12 +43,14 @@ def create_h5():
     train_h5.create_dataset('background', data=background_image)
     val_h5.create_dataset('background', data=background_image)
     test_h5.create_dataset('background', data=background_image)
+    demo_h5.create_dataset('background', data=background_image)
 
     # add object properties to hdf5
     entites = json.dumps(['{} {}'.format(e[0], e[1]) for e in OBJECTS])
     train_h5.create_dataset('entities', data=entites)
     val_h5.create_dataset('entities', data=entites)
     test_h5.create_dataset('entities', data=entites)
+    demo_h5.create_dataset('entities', data=entites)
 
     # start saving data into hdf5; loop over all scenes
     for scene in tqdm(glob(json_path + '/*.json')):
